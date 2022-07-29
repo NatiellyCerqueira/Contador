@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>contador</title>
+</head>
+<body>
+    <button id="adicionarcontador" >Adicionar contador</button>
+    <div id="contadores" ></div>
+
+    <script>
+        let contadores = []
+        function atualizaContadores(){
+	        document.querySelector("#contadores").innerHTML = ""
+	        contadores.forEach(function(contador){
+                document.querySelector("#contadores").innerHTML += `
+                    <br/>
+                        <div class="contador">
+                        <button data-identificação="${contador.identificação}" class="subtrair">-</button>
+                        <span>${contador.valor}</span>
+                        <button data-identificação="${contador.identificação}" class="somar">+</button>
+                        </div>
+                    <br/>`
+            })           
+	     
+            document.querySelectorAll(".contador .somar").forEach(function(elemento){
+                elemento.addEventListener("click", function(){
+                    const identificação = elemento.getAttribute("data-identificação")
+                    contadores[identificação].valor += 1
+                    atualizaContadores()
+                })
+            })
+
+            document.querySelectorAll(".contador .subtrair").forEach(function(elemento){
+                elemento.addEventListener("click", function(){
+                    const identificação = elemento.getAttribute("data-identificação")
+                    if( contadores[identificação].valor > 0){ 
+                        contadores[identificação].valor -= 1
+                        atualizaContadores()
+                    }
+                    atualizaContadores()
+                })
+            
+            })
+        
+        }
+
+        atualizaContadores()
+
+        document.querySelector("#adicionarcontador").addEventListener("click", function(){
+            contadores.push({  
+            identificação: contadores.length,
+            valor: 0
+        })
+
+        atualizaContadores()
+})
+                  
+    </script>
+
+</body>
+</html>
